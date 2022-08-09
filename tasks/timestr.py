@@ -12,8 +12,15 @@ def seconds_to_str(seconds: int) -> str:
     3700 -> 01h01m40s
     93600 -> 01d02h00m00s
     """
-    raise NotImplementedError
+    if seconds < 60:
+        return f'{seconds:02}s'
 
+    if 60 <= seconds < 3600:
+        return f'{seconds//60:02}m{seconds%60:02}s'
 
+    if 3600 <= seconds < 86400:
+        return f'{seconds//3600:02}h{seconds%3600//60:02}m{seconds%60:02}s'
 
-
+    if 86400 <= seconds:
+        return f'{seconds//86400:02}d\
+{seconds%86400//3600:02}h{seconds%3600//60:02}m{seconds%60:02}s'

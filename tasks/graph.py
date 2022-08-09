@@ -26,9 +26,47 @@ class Node:
 class Graph:
     def __init__(self, root: Node):
         self._root = root
-
+    
     def dfs(self) -> list[Node]:
-        raise NotImplementedError
+
+        result: list = []
+        vizited: list = []
+        pointer: Node = self._root
+
+        def _sub_dfs(pointer):
+
+            if pointer not in result:
+                result.append(pointer)
+                vizited.append(pointer)
+
+            if pointer.outbound:
+                for node in pointer.outbound:
+                    if node not in vizited:
+                        pointer = node
+                        _sub_dfs(node)
+            return result
+
+        return _sub_dfs(pointer)
 
     def bfs(self) -> list[Node]:
-        raise NotImplementedError
+        result: list = []
+        stack: list = []
+        vizited: list = []
+        pointer: Node = self._root
+
+        while True:
+            if pointer not in result:
+                result.append(pointer)
+
+            if pointer.outbound:
+                for node in pointer.outbound:
+                    if node not in vizited:
+                        stack.append(node)
+                        vizited.append(node)
+
+            if not stack:
+                break
+
+            pointer = stack.pop(0)
+
+        return result
